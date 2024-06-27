@@ -27,9 +27,11 @@ public class AvatarFire : MonoBehaviourPunCallbacks
 
     // 弾を発射するメソッド
     [PunRPC]
-    private void FireBullet(int id, float angle)
+    private void FireBullet(int id, PhotonMessageInfo info)
     {
         var bullet = Instantiate(bulletPrefab);
-        bullet.Init(id, photonView.OwnerActorNr, transform.position, angle);
+        // 弾を発射した時刻に50msのディレイをかける
+        int timestamp = unchecked(info.SentServerTimestamp + 50);
+        bullet.Init(id, photonView.OwnerActorNr, transform.position, timestamp);
     }
 }
